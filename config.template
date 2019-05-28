@@ -14,4 +14,8 @@ maxload=10
 default_security_level=high
 
 # Whether to write debug messages to the debug.log file under script dir
+# Possible values:
+# 0 - only mail api errors
+# 1 - log mode switching and api errors to debug.log
+# 2 - also log verbose statistics on every launch
 debug=0

@@ -31,7 +31,7 @@ attacked_file=$basedir/attacked
 config_file=$basedir/config
 [ -e "$config_file" ] && source "$config_file"
 
-[ "$debug" -gt 0 ] && exec >> "${logfile:-$basedir/debug.log}"
+[ "$debug" -ge 1 ] && exec >> "${logfile:-$basedir/debug.log}"
 
 api_set_mode() {
 	local mode
@@ -59,7 +59,7 @@ if [[ "$1" != [01] ]]; then
 	exit 1
 fi
 
-if [ $debug -eq 1 ]; then
+if [ "$debug" -ge 2 ]; then
 	echo "Mode: $1; was under attack: $was_under_attack; now under attack: $under_attack"
 	echo "Load average: $loadavg"
 fi
@@ -68,7 +68,10 @@ if [ "$1" -eq 0 ] && [ "$was_under_attack" -eq 0 ] && [ "$under_attack" -eq 1 ];
 	# attack just started and we want to enable under-attack mode
 
 	# Activate protection
-	[ "$debug" -eq 1 ] && echo "Activating under-attack mode!"
+	if [ "$debug" -ge 1 ]; then
+		date
+		echo "Activating under-attack mode!"
+	fi
 	echo 1 > "$attacked_file"
 	api_set_mode under_attack
 
@@ -77,7 +80,10 @@ elif [ "$1" -eq 1 ] && [ "$was_under_attack" -eq 1 ] && [ "$under_attack" -eq 0 
 	# and we want to disable under-attack mode
 
 	# Disable Protection
-	[ "$debug" -eq 1 ] && echo "Leaving under-attack mode!"
+	if [ "$debug" -ge 1 ]; then
+		date
+		echo "Leaving under-attack mode!"
+	fi
 	echo 0 > "$attacked_file"
 	api_set_mode "$default_security_level"
 
