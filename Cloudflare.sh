@@ -8,7 +8,6 @@ loadavg=$(awk '{printf "%f", $1}' < /proc/loadavg)
 # load is 10, you can modify this if you want load more than 10
 maxload=10
 
-
 # Configuration API Cloudflare
 # Your Global API Key (https://dash.cloudflare.com/profile)
 api_key=
